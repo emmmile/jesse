@@ -52,7 +52,8 @@
 -record( state
        , { root_schema        :: jesse:json_term()
          , current_schema     :: jesse:json_term()
-         , current_path       :: [binary() | non_neg_integer()] %% current path in reversed order
+         , current_path       :: [binary() | non_neg_integer()]
+                                 %% current path in reversed order
          , allowed_errors     :: non_neg_integer() | 'infinity'
          , error_list         :: list()
          , error_handler      :: fun(( jesse_error:error_reason()
@@ -60,7 +61,9 @@
                                      , non_neg_integer()
                                      ) -> list() | no_return())
          , default_schema_ver :: binary()
-         , schema_loader_fun  :: fun((binary()) -> {ok, jesse:json_term()} | jesse:json_term() | ?not_found)
+         , schema_loader_fun  :: fun((binary()) -> {ok, jesse:json_term()}
+                                                   | jesse:json_term()
+                                                   | ?not_found)
          , id                 :: binary()
          }
        ).
@@ -69,7 +72,8 @@
 
 %%% API
 %% @doc Adds `Property' to the `current_path' in `State'.
--spec add_to_path(State :: state(), Property :: binary() | non_neg_integer()) -> state().
+-spec add_to_path(State :: state(), Property :: binary()
+                                    | non_neg_integer()) -> state().
 add_to_path(State, Property) ->
   CurrentPath = State#state.current_path,
   State#state{current_path = [Property | CurrentPath]}.
@@ -232,7 +236,8 @@ local_schema(Schema, [Key | Keys]) ->
 
 %% @doc Resolve a new id
 %% @private
--spec combine_id(undefined | http_uri:uri(), undefined | binary()) -> http_uri:uri().
+-spec combine_id(undefined | http_uri:uri(), undefined
+                                             | binary()) -> http_uri:uri().
 combine_id(Id, undefined) ->
   Id;
 combine_id(Id, Ref) ->

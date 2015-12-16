@@ -10,7 +10,7 @@
 -type kvc_dict() :: dict().
 -type kvc_gb_tree() :: gb_tree().
 -else.
--type kvc_dict() :: dict:dict().
+-type kvc_dict() :: dict().
 -type kvc_gb_tree() :: gb_trees:tree().
 -endif.
 
@@ -32,8 +32,10 @@
 -spec parse(JSONPointer :: string() | binary()) -> [binary()].
 parse(JSONPointer) ->
     lists:map(
-      fun (Segment) when is_list(Segment) -> unicode:characters_to_binary(Segment);
-          (Segment) when is_binary(Segment) -> Segment
+      fun (Segment) when is_list(Segment) ->
+            unicode:characters_to_binary(Segment);
+          (Segment) when is_binary(Segment) ->
+            Segment
       end,
       re:split(JSONPointer, <<"/">>, [{return, binary}, unicode])
      ).
